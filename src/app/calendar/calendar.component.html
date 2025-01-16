@@ -1,14 +1,9 @@
 <main class="main">
   <div class="calendar">
-    <div class="calendar__header">
-      <div class="calendar__header__title">
-        <h1>January 2025</h1>
-      </div>
-      <div class="calendar__header__buttons">
-        <button class="btn btn--primary">Previous</button>
-        <button class="btn btn--primary">Next</button>
-      </div>
-    </div>
+    <app-header title="January 2025">
+      <button class="btn btn--primary">Previous</button>
+      <button class="btn btn--primary">Next</button>
+    </app-header>
     <div class="calendar__body">
       <div class="calendar__body__days">
         <div class="calendar__body__days__day__title">Sun</div>
@@ -22,10 +17,13 @@
       @for (row of calendarDays | chunk : 7; track $index) {
       <div class="calendar__body__days">
         @for (day of row; track $index) {
-        <div class="calendar__body__days__day">
-          <button mat-button class="calendar__body__days__day__button">
+        <div class="calendar__body__days__day" [class.today]="day!.isToday">
+          <a
+            class="calendar__body__days__day__button"
+            routerLink="/create-appointment"
+          >
             <strong>{{ day!.date.getDate() }}</strong>
-          </button>
+          </a>
         </div>
         }
       </div>

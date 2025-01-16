@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import {MatButtonModule} from '@angular/material/button';
 import { CalendarDay } from './calendar-day.class';
 import { ChunkPipe } from '../pipes/chunk-pipe';
+import { RouterLink } from '@angular/router';
+import { AppHeader } from '../components/app-header/app-header.component';
 
 @Component({
   selector: 'calendar',
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.css',
-  imports: [ChunkPipe, MatButtonModule],
+  imports: [ChunkPipe, RouterLink, AppHeader],
 })
 export class Calendar implements OnInit {
   public calendarDays: CalendarDay[] = [];

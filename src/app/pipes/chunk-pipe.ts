@@ -7,7 +7,7 @@ import { CalendarDay } from '../calendar/calendar-day.class';
 export class ChunkPipe implements PipeTransform {
   transform(calendarDaysArray: CalendarDay[], chunkSize: number): any {
 
-    let calendarDays: CalendarDay[][] = [];
+    const calendarDays: CalendarDay[][] = [];
     let weekDays: CalendarDay[] = [];
 
     calendarDaysArray.map((day, index) => {

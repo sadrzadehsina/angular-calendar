@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
-import { Calendar } from './calendar/calendar.component';
-import { Appointment } from './appointment/appointment.component';
+import { CalendarComponent } from './calendar/calendar.component';
+import { AppointmentComponent } from './appointment/appointment.component';
 import { AppComponent } from './app.component';
 
 export const routes: Routes = [
@@ -10,12 +10,12 @@ export const routes: Routes = [
     component: AppComponent,
     children: [
       {
-        path: '',
-        component: Calendar,
+        path: 'calendar',
+        component: CalendarComponent,
       },
       {
         path: 'create-appointment',
-        component: Appointment,
+        component: AppointmentComponent,
       },
     ],
   },

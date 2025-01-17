@@ -1,8 +1,12 @@
 <main class="main">
   <div class="calendar">
-    <app-header title="January 2025">
-      <button class="btn btn--primary">Previous</button>
-      <button class="btn btn--primary">Next</button>
+    <app-header [title]="stringCurrentMonth">
+      <button mat-button (click)="previousMonth()">Previous Month</button>
+      <button mat-button (click)="today()">Today</button>
+      <button mat-button (click)="nextMonth()">Next Month</button>
+      <button mat-raised-button routerLink="/create-appointment">
+        Create Appointment
+      </button>
     </app-header>
     <div class="calendar__body">
       <div class="calendar__body__days">
@@ -16,15 +20,8 @@
       </div>
       @for (row of calendarDays | chunk : 7; track $index) {
       <div class="calendar__body__days">
-        @for (day of row; track $index) {
-        <div class="calendar__body__days__day" [class.today]="day!.isToday">
-          <a
-            class="calendar__body__days__day__button"
-            routerLink="/create-appointment"
-          >
-            <strong>{{ day!.date.getDate() }}</strong>
-          </a>
-        </div>
+        @for (day of row; track day.date) {
+        <app-day [day]="day" />
         }
       </div>
       }

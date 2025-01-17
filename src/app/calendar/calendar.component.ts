@@ -1,32 +1,33 @@
 import { Component, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
 import { CalendarDay } from './calendar-day.class';
 import { ChunkPipe } from '../pipes/chunk-pipe';
-import { RouterLink } from '@angular/router';
-import { AppHeader } from '../components/app-header/app-header.component';
-
+import { AppHeaderComponent } from '../components/app-header/app-header.component';
+import { DayComponent } from '../components/day/day.component';
+import dayjs from 'dayjs';
+import { month, year } from '../utils/date';
 @Component({
-  selector: 'calendar',
+  selector: 'app-calendar',
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.css',
-  imports: [ChunkPipe, RouterLink, AppHeader],
+  imports: [ChunkPipe, RouterLink, DayComponent, MatButtonModule, AppHeaderComponent],
 })
-export class Calendar implements OnInit {
+export class CalendarComponent implements OnInit {
+  private currentMonth: Date = new Date();
+
   public calendarDays: CalendarDay[] = [];
 
   ngOnInit(): void {
-    this.generateCalendarDays();
+    this.generateCalendarDays(this.currentMonth);
   }
 
-  private generateCalendarDays(): void {
-    const numberOfDaysToShow = 35;
+  private generateCalendarDays(date: Date): void {
+    const numberOfDaysToShow = 42;
 
     this.calendarDays = [];
 
-    const today: Date = new Date();
-
-    const startDateOfCalendar = this.getStartDateOfCalendar(today);
-
-    let dateToAdd = startDateOfCalendar;
+    let dateToAdd = this.getStartDateOfCalendar(date);
 
     this.calendarDays.push(new CalendarDay(new Date(dateToAdd)));
 
@@ -37,7 +38,9 @@ export class Calendar implements OnInit {
   }
 
   private getStartDateOfCalendar(date: Date) {
-    let lastDayOfPreviousMonth = new Date(date.setDate(0));
+    const clonedDate = new Date(date);
+
+    const lastDayOfPreviousMonth = new Date(clonedDate.setDate(0));
 
     let startDateOfCalendar: Date = lastDayOfPreviousMonth;
 
@@ -50,5 +53,29 @@ export class Calendar implements OnInit {
     }
 
     return startDateOfCalendar;
+  }
+
+  public previousMonth(): void {
+    const previousMonth = dayjs(this.currentMonth)
+      .subtract(1, 'month')
+      .toDate();
+    this.generateCalendarDays(previousMonth);
+
+    this.currentMonth = previousMonth;
+  }
+
+  public today(): void {
+    this.generateCalendarDays(new Date());
+  }
+
+  public nextMonth(): void {
+    const nextMonth = dayjs(this.currentMonth).add(1, 'month').toDate();
+    this.generateCalendarDays(nextMonth);
+
+    this.currentMonth = nextMonth;
+  }
+
+  public get stringCurrentMonth(): string {
+    return month(this.currentMonth) + ' ' + year(this.currentMonth);
   }
 }
